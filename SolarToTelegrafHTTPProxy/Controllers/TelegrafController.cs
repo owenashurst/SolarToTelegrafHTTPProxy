@@ -27,7 +27,13 @@ namespace SolarToTelegrafHTTPProxy.Controllers
         {
             _logger.LogDebug("Incoming request: ", body);
 
-            var query = new Features.Telegraf.Details.Query(body);
+            var splitData = body.Split(',');
+            if (splitData.Length < 10)
+            {
+                return Ok();
+            }
+
+            var query = new Features.Telegraf.Details.Query(splitData);
             var response = await _mediator.Send(query);
 
             if (response.Success)

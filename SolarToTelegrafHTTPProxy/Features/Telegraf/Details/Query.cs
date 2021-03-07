@@ -6,49 +6,47 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
     public class Query : IRequest<Model>
     {
-        public Query(string data)
+        public Query(string[] data)
         {
-            var splitData = data.Split(',');
+            DataHeader = data.GetValue(0) as string;
+            CardId = Convert.ToInt64(data.GetValue(1));
+            ProtocolId = Convert.ToInt32(data.GetValue(2));
+            Keywords = data.GetValue(3) as string;
+            SerialNumber = Convert.ToInt64(data.GetValue(4));
+            WorkMode = data.GetValue(5) as string;
+            GridVoltage = Convert.ToDecimal(data.GetValue(6));
+            GridFrequency = Convert.ToDecimal(data.GetValue(7));
+            ACOutputVoltage = Convert.ToDecimal(data.GetValue(8));
+            ACOutputFrequency = Convert.ToDecimal(data.GetValue(9));
+            ACOutputApparentPower = Convert.ToDecimal(data.GetValue(10));
+            ACOutputActivePower = Convert.ToDecimal(data.GetValue(11));
+            LoadPercentage = Convert.ToInt32(data.GetValue(12));
+            BatteryVoltage = Convert.ToDecimal(data.GetValue(13));
+            BatteryChargingCurrent = Convert.ToInt32(data.GetValue(14));
+            BatteryCapacity = Convert.ToInt32(data.GetValue(15));
+            PVInputVoltage = Convert.ToDecimal(data.GetValue(16));
+            TotalChargingCurrent = Convert.ToDecimal(data.GetValue(17));
+            TotalACOutputApparentPower = Convert.ToInt32(data.GetValue(18));
+            TotalOutputActivePower = Convert.ToInt32(data.GetValue(19));
+            TotalACOutputPercentage = Convert.ToInt32(data.GetValue(20));
+            InverterStatus = Convert.ToInt32(data.GetValue(21));
+            PVInputCurrentForBattery = Convert.ToInt32(data.GetValue(22));
+            BatteryDischargeCurrent = Convert.ToInt32(data.GetValue(23));
+            DeviceStatus = Convert.ToInt32(data.GetValue(24));
+            PVChargingPower = Convert.ToInt32(data.GetValue(25));
+            PV2InputVoltage = Convert.ToDecimal(data.GetValue(26));
+            PV2InputCurrent = Convert.ToInt32(data.GetValue(27));
+            PV2ChargingPower = Convert.ToInt32(data.GetValue(28));
+            PV3InputVoltage = Convert.ToDecimal(data.GetValue(29));
+            PV3InputCurrent = Convert.ToInt32(data.GetValue(30));
+            PV3ChargingPower = Convert.ToInt32(data.GetValue(31));
+            LinePowerDirection = Convert.ToInt32(data.GetValue(32));
+            DeviceStatus2 = Convert.ToInt32(data.GetValue(33));
+            ACChargingCurrent = Convert.ToInt32(data.GetValue(34));
+            ACChargingPower = Convert.ToInt32(data.GetValue(35));
+            PVTotalChargingPower = Convert.ToInt32(data.GetValue(36));
 
-            DataHeader = splitData.GetValue(0) as string;
-            CardId = Convert.ToInt64(splitData.GetValue(1));
-            ProtocolId = Convert.ToInt32(splitData.GetValue(2));
-            Keywords = splitData.GetValue(3) as string;
-            SerialNumber = Convert.ToInt64(splitData.GetValue(4));
-            WorkMode = splitData.GetValue(5) as string;
-            GridVoltage = Convert.ToDecimal(splitData.GetValue(6));
-            GridFrequency = Convert.ToDecimal(splitData.GetValue(7));
-            ACOutputVoltage = Convert.ToDecimal(splitData.GetValue(8));
-            ACOutputFrequency = Convert.ToDecimal(splitData.GetValue(9));
-            ACOutputApparentPower = Convert.ToDecimal(splitData.GetValue(10));
-            ACOutputActivePower = Convert.ToDecimal(splitData.GetValue(11));
-            LoadPercentage = Convert.ToInt32(splitData.GetValue(12));
-            BatteryVoltage = Convert.ToDecimal(splitData.GetValue(13));
-            BatteryChargingCurrent = Convert.ToInt32(splitData.GetValue(14));
-            BatteryCapacity = Convert.ToInt32(splitData.GetValue(15));
-            PVInputVoltage = Convert.ToDecimal(splitData.GetValue(16));
-            TotalChargingCurrent = Convert.ToDecimal(splitData.GetValue(17));
-            TotalACOutputApparentPower = Convert.ToInt32(splitData.GetValue(18));
-            TotalOutputActivePower = Convert.ToInt32(splitData.GetValue(19));
-            TotalACOutputPercentage = Convert.ToInt32(splitData.GetValue(20));
-            InverterStatus = Convert.ToInt32(splitData.GetValue(21));
-            PVInputCurrentForBattery = Convert.ToInt32(splitData.GetValue(22));
-            BatteryDischargeCurrent = Convert.ToInt32(splitData.GetValue(23));
-            DeviceStatus = Convert.ToInt32(splitData.GetValue(24));
-            PVChargingPower = Convert.ToInt32(splitData.GetValue(25));
-            PV2InputVoltage = Convert.ToDecimal(splitData.GetValue(26));
-            PV2InputCurrent = Convert.ToInt32(splitData.GetValue(27));
-            PV2ChargingPower = Convert.ToInt32(splitData.GetValue(28));
-            PV3InputVoltage = Convert.ToDecimal(splitData.GetValue(29));
-            PV3InputCurrent = Convert.ToInt32(splitData.GetValue(30));
-            PV3ChargingPower = Convert.ToInt32(splitData.GetValue(31));
-            LinePowerDirection = Convert.ToInt32(splitData.GetValue(32));
-            DeviceStatus2 = Convert.ToInt32(splitData.GetValue(33));
-            ACChargingCurrent = Convert.ToInt32(splitData.GetValue(34));
-            ACChargingPower = Convert.ToInt32(splitData.GetValue(35));
-            PVTotalChargingPower = Convert.ToInt32(splitData.GetValue(36));
-
-            CurrentTime = DateTime.ParseExact(splitData.GetValue(40) as string, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+            CurrentTime = DateTime.ParseExact(data.GetValue(40) as string, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
         }
 
         public string DataHeader { get; set; }
