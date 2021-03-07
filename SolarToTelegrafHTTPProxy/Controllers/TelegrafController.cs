@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using MediatR;
+using System;
 
 namespace SolarToTelegrafHTTPProxy.Controllers
 {
@@ -25,23 +26,30 @@ namespace SolarToTelegrafHTTPProxy.Controllers
         [Consumes("text/plain")]
         public async Task<IActionResult> PostData([FromBody] string body)
         {
-            _logger.LogDebug("Incoming request: ", body);
+            _logger.LogInformation($"Incoming request: {body}");
 
-            var trimmedBody = body.Trim('\r', '\n');
-            var splitData = trimmedBody.Split(',');
-
-            // Return if the request is not detailed monitoring information
-            if (splitData.GetValue(3) as string != "DT") return Ok();
-
-            var query = new Features.Telegraf.Details.Query(splitData);
-            var response = await _mediator.Send(query);
-
-            if (response.Success)
+            try
             {
-                return Ok();
-            }
-            else
+                var trimmedBody = body.Trim('\r', '\n');
+                var splitData = trimmedBody.Split(',');
+
+                // Return if the request is not detailed monitoring information
+                if (splitData.GetValue(3) as string != "DT") return Ok();
+
+                var query = new Features.Telegraf.Details.Query(splitData);
+                var response = await _mediator.Send(query);
+
+                if (response.Success)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return StatusCode(500);
+                }
+            } catch (Exception ex)
             {
+                _logger.LogError(ex, "Error when parsing data");
                 return StatusCode(500);
             }
         }
