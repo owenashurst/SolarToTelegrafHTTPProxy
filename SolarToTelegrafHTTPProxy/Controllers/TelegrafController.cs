@@ -27,7 +27,8 @@ namespace SolarToTelegrafHTTPProxy.Controllers
         {
             _logger.LogDebug("Incoming request: ", body);
 
-            var splitData = body.Split(',');
+            var trimmedBody = body.Trim('\r', '\n');
+            var splitData = trimmedBody.Split(',');
 
             // Return if the request is not detailed monitoring information
             if (splitData.GetValue(3) as string != "DT") return Ok();
