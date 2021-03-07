@@ -47,7 +47,8 @@ namespace SolarToTelegrafHTTPProxy.Controllers
                 {
                     return StatusCode(500);
                 }
-            } catch (Exception ex)
+            } 
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error when parsing data");
                 return StatusCode(500);
