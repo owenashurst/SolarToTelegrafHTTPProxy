@@ -25,6 +25,8 @@ namespace SolarToTelegrafHTTPProxy.Controllers
         [Consumes("text/plain")]
         public async Task<IActionResult> PostData([FromBody] string body)
         {
+            _logger.LogDebug("Incoming request: ", body);
+
             var query = new Features.Telegraf.Details.Query(body);
             var response = await _mediator.Send(query);
 
