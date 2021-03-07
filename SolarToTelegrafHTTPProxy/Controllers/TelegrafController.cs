@@ -28,10 +28,9 @@ namespace SolarToTelegrafHTTPProxy.Controllers
             _logger.LogDebug("Incoming request: ", body);
 
             var splitData = body.Split(',');
-            if (splitData.Length < 10)
-            {
-                return Ok();
-            }
+
+            // Return if the request is not detailed monitoring information
+            if (splitData.GetValue(3) as string != "DT") return Ok();
 
             var query = new Features.Telegraf.Details.Query(splitData);
             var response = await _mediator.Send(query);
