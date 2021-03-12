@@ -1,4 +1,6 @@
 # SolarToTelegrafHTTPProxy
+[![master](https://github.com/owenashurst/SolarToTelegrafHTTPProxy/actions/workflows/dotnet.yml/badge.svg)](https://github.com/owenashurst/SolarToTelegrafHTTPProxy/actions)
+
 Parses the data from an Iconica WiFi monitoring kit and proxies the request to Telegraf over HTTP as JSON.
 
 ## Requirements
