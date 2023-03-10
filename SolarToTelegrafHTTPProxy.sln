@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarToTelegrafHTTPProxy", "SolarToTelegrafHTTPProxy\SolarToTelegrafHTTPProxy.csproj", "{CAADD1F4-73CF-46BB-9B84-489FB41D34DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SolarToTelegrafHTTPProxy", "SolarToTelegrafHTTPProxy\SolarToTelegrafHTTPProxy.csproj", "{CAADD1F4-73CF-46BB-9B84-489FB41D34DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarToTelegrafHTTPProxy.UnitTests", "SolarToTelegrafHTTPProxy.UnitTests\SolarToTelegrafHTTPProxy.UnitTests.csproj", "{31195194-D30E-418C-9B98-D0B100CB7F0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CAADD1F4-73CF-46BB-9B84-489FB41D34DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAADD1F4-73CF-46BB-9B84-489FB41D34DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAADD1F4-73CF-46BB-9B84-489FB41D34DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31195194-D30E-418C-9B98-D0B100CB7F0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31195194-D30E-418C-9B98-D0B100CB7F0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31195194-D30E-418C-9B98-D0B100CB7F0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31195194-D30E-418C-9B98-D0B100CB7F0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

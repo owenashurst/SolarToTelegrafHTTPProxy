@@ -4,7 +4,7 @@ using MediatR;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
-    public class QueryHandler : IRequestHandler<Query, Model>
+    public class QueryHandler : IRequestHandler<Query, Response>
     {
         private readonly ITelegrafHttpService _telegrafHttpService;
 
@@ -13,16 +13,16 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             _telegrafHttpService = telegrafHttpService;
         }
 
-        public async Task<Model> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             var result = await _telegrafHttpService.SubmitToTelegraf(request);
             if (result)
             {
-                return new Model { Success = true };
+                return new Response { Success = true };
             } 
             else
             {
-                return new Model { Success = false };
+                return new Response { Success = false };
             }
         }
     }

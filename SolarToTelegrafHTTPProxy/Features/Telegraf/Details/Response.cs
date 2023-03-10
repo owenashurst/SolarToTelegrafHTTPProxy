@@ -1,6 +1,6 @@
 ﻿namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
-    public class Model
+    public class Response
     {
         public bool Success { get; set; }
     }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
-    public class Query : IRequest<Model>
+    public class Query : IRequest<Response>
     {
         public Query(string[] data)
         {

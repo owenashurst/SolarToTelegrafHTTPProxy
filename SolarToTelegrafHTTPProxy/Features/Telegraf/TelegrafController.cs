@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+﻿using System;
 using System.Threading.Tasks;
 using MediatR;
-using System;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace SolarToTelegrafHTTPProxy.Controllers
+namespace SolarToTelegrafHTTPProxy.Features.Telegraf
 {
     [ApiController]
     [Route("[controller]")]
@@ -36,7 +36,7 @@ namespace SolarToTelegrafHTTPProxy.Controllers
                 // Return if the request is not detailed monitoring information
                 if (splitData.GetValue(3) as string != "DT") return Ok();
 
-                var query = new Features.Telegraf.Details.Query(splitData);
+                var query = new Details.Query(splitData);
                 var response = await _mediator.Send(query);
 
                 if (response.Success)
