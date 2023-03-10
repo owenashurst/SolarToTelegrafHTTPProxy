@@ -39,14 +39,7 @@ namespace SolarToTelegrafHTTPProxy.Controllers
                 var query = new Features.Telegraf.Details.Query(splitData);
                 var response = await _mediator.Send(query);
 
-                if (response.Success)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    return StatusCode(500);
-                }
+                return response.Success ? Ok() : StatusCode(500);
             } 
             catch (Exception ex)
             {
