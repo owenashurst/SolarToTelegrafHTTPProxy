@@ -4,6 +4,10 @@
 This API parses the data from an Iconica WiFi monitoring kit and proxies the request to Telegraf over HTTP as JSON.
 This allows anyone to produce their own Solar monitoring dashboard using something such as Grafana.
 
+Example using Grafana:
+
+![dashboard](https://user-images.githubusercontent.com/4403436/224561895-0aebb592-fd7e-4481-a3bf-b622a85b837a.png)
+
 ## Requirements
 This relies on the Telegraf [http_listener_v2](https://github.com/influxdata/telegraf/tree/master/plugins/inputs/http_listener_v2) being enabled in the telegraf config.
 
