@@ -40,7 +40,11 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             PV3InputVoltage = Convert.ToDecimal(data.GetValue(29));
             PV3InputCurrent = Convert.ToInt32(data.GetValue(30));
             PV3ChargingPower = Convert.ToInt32(data.GetValue(31));
-            LinePowerDirection = Convert.ToInt32(data.GetValue(32));
+            
+            // Sometimes this can have a value of "-" so we need to handle this and just set it as 0.
+            // Currently this property isn't being used, but might be in future.
+            LinePowerDirection = int.TryParse(data.GetValue(32) as string, out var linePowerDirectionValue) ? linePowerDirectionValue : 0;
+            
             DeviceStatus2 = Convert.ToInt32(data.GetValue(33));
             ACChargingCurrent = Convert.ToInt32(data.GetValue(34));
             ACChargingPower = Convert.ToInt32(data.GetValue(35));
