@@ -45,10 +45,10 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             // Currently this property isn't being used, but might be in future.
             LinePowerDirection = int.TryParse(data.GetValue(32) as string, out var linePowerDirectionValue) ? linePowerDirectionValue : 0;
             
-            DeviceStatus2 = Convert.ToInt32(data.GetValue(33));
-            ACChargingCurrent = Convert.ToInt32(data.GetValue(34));
-            ACChargingPower = Convert.ToInt32(data.GetValue(35));
-            PVTotalChargingPower = Convert.ToInt32(data.GetValue(36));
+            DeviceStatus2 = int.TryParse(data.GetValue(33) as string, out var deviceStatus2) ? deviceStatus2 : 0;
+            ACChargingCurrent = int.TryParse(data.GetValue(34) as string, out var acChargingCurrent) ? acChargingCurrent : 0;
+            ACChargingPower = int.TryParse(data.GetValue(35) as string, out var acChargingPower) ? acChargingPower : 0;
+            PVTotalChargingPower = int.TryParse(data.GetValue(36) as string, out var pvTotalChargingPower) ? pvTotalChargingPower : 0;
 
             CurrentTime = DateTime.ParseExact(data.GetValue(40) as string, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
         }
