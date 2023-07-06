@@ -27,10 +27,14 @@ builder.Services.AddMediatR(o =>
     o.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 });
 
-//builder.Services.AddControllers(o => o.InputFormatters.Insert(o.InputFormatters.Count, new TextPlainInputFormatter()));
+builder.Services.AddOptions()
+    .Configure<GeneralSettings>(builder.Configuration.GetSection(nameof(GeneralSettings)));
 
 builder.Services.AddOptions()
     .Configure<TelegrafSettings>(builder.Configuration.GetSection(nameof(TelegrafSettings)));
+
+builder.Services.AddOptions()
+    .Configure<MqttSettings>(builder.Configuration.GetSection(nameof(MqttSettings)));
 
 builder.Services.AddSingleton<ITelegrafHttpService, TelegrafHttpService>();
 

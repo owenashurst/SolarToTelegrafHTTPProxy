@@ -1,29 +1,52 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.Extensions.Options;
+using SolarToTelegrafHTTPProxy.Config;
+using SolarToTelegrafHTTPProxy.Services.Mqtt;
+using SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
     public class QueryHandler : IRequestHandler<Query, Response>
     {
         private readonly ITelegrafHttpService _telegrafHttpService;
+        private readonly IMqttService _mqttService;
+        private readonly GeneralSettings _generalSettings;
 
-        public QueryHandler(ITelegrafHttpService telegrafHttpService)
+        public QueryHandler(ITelegrafHttpService telegrafHttpService, IMqttService mqttService, IOptions<GeneralSettings> generalSettings)
         {
             _telegrafHttpService = telegrafHttpService;
+            _mqttService = mqttService;
+            
+            ArgumentNullException.ThrowIfNull(generalSettings);
+            _generalSettings = generalSettings.Value;
         }
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            var result = await _telegrafHttpService.SubmitToTelegraf(request);
-            if (result)
+            var telegrafResult = await _telegrafHttpService.SubmitToTelegraf(request);
+
+            if (_generalSettings.EnableMqtt)
             {
-                return new Response { Success = true };
-            } 
-            else
-            {
-                return new Response { Success = false };
+                await _mqttService.PublishMessageToBrokerAsync(new Message
+                {
+                    ACOutputApparentPower = request.ACOutputApparentPower,
+                    ACOutputFrequency = request.ACOutputFrequency,
+                    ACOutputPower = request.ACOutputActivePower,
+                    ACOutputVoltage = request.ACOutputVoltage,
+                    BatteryCapacity = request.BatteryCapacity,
+                    BatteryChargingCurrent = request.BatteryChargingCurrent,
+                    BatteryDischargeCurrent = request.BatteryDischargeCurrent,
+                    BatteryVoltage = request.BatteryVoltage,
+                    PVInputCurrentForBattery = request.PVInputCurrentForBattery,
+                    PVInputVoltage = request.PVInputVoltage
+                });
             }
+
+            // We only really care whether Telegraf submitted successfully or not.
+            return telegrafResult ? new Response { Success = true } : new Response { Success = false };
         }
     }
 }
