@@ -1,20 +1,59 @@
-using Microsoft.AspNetCore.Hosting;
+using System;
+using System.Reflection;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using SolarToTelegrafHTTPProxy.Config;
+using SolarToTelegrafHTTPProxy.Features.Telegraf;
 
-namespace SolarToTelegrafHTTPProxy
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors();
+
+builder.Services.AddHttpClient(TelegrafHttpService.HttpClientName, config =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+    var telegrafSettings = builder.Configuration.GetSection("Settings").Get<TelegrafSettings>();
+    config.BaseAddress = new Uri(telegrafSettings.HttpListenerApiUrl);
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+builder.Services.AddMediatR(o =>
+{
+    o.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
+
+//builder.Services.AddControllers(o => o.InputFormatters.Insert(o.InputFormatters.Count, new TextPlainInputFormatter()));
+
+builder.Services.AddOptions()
+    .Configure<TelegrafSettings>(builder.Configuration.GetSection(nameof(TelegrafSettings)));
+
+builder.Services.AddSingleton<ITelegrafHttpService, TelegrafHttpService>();
+
+var app = builder.Build();
+
+app.UseCors(policyBuilder =>
+{
+    policyBuilder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

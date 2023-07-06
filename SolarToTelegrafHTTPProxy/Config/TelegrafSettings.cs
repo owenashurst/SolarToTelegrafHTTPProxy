@@ -2,8 +2,8 @@
 {
     public class TelegrafSettings
     {
-        public string HttpListenerApiURL { get; set; }
+        public string HttpListenerApiUrl { get; set; } = string.Empty;
 
-        public string Endpoint { get; set; }
+        public string Endpoint { get; set; } = string.Empty;
     }
 }
