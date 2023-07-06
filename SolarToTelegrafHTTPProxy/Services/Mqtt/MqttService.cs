@@ -28,8 +28,11 @@ public class MqttService : IMqttService
         _mqttFactory = new MqttFactory();
     }
 
-    public async Task<bool> PublishMessageToBrokerAsync(Message mqttMessage)
+    public async Task<bool> PublishMessageToBrokerAsync(SolarInfo solarInfo)
     {
+        var configResult = await PublishConfigMessageToBrokerAsync();
+        if (!configResult) return false;
+        
         using var mqttClient = _mqttFactory.CreateMqttClient();
         
         var mqttClientOptions = new MqttClientOptionsBuilder()
@@ -40,14 +43,14 @@ public class MqttService : IMqttService
         {
             await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
-            _logger.LogInformation("Connected to MQTT broker.");
+            _logger.LogInformation("Connected to MQTT broker");
 
-            var serialisedMqttMessage = JsonSerializer.Serialize(mqttMessage);
+            var serialisedMqttMessage = JsonSerializer.Serialize(solarInfo, new JsonSerializerOptions(JsonSerializerDefaults.Web));
             
             _logger.LogInformation("Sending MQTT message: {Message}", serialisedMqttMessage);
             
             var message = new MqttApplicationMessageBuilder()
-                .WithTopic(_mqttSettings.Topic)
+                .WithTopic(MqttSettings.MessageTopic)
                 .WithPayload(serialisedMqttMessage)
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
                 .Build();
@@ -61,6 +64,55 @@ public class MqttService : IMqttService
             else
             {
                 _logger.LogError("Error when sending MQTT message");
+            }
+        
+            var mqttClientDisconnectOptions = _mqttFactory.CreateClientDisconnectOptionsBuilder().Build();
+        
+            await mqttClient.DisconnectAsync(mqttClientDisconnectOptions, CancellationToken.None);
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unable to send message to broker");
+
+            return false;
+        }
+    }
+    
+    private async Task<bool> PublishConfigMessageToBrokerAsync()
+    {
+        using var mqttClient = _mqttFactory.CreateMqttClient();
+        
+        var mqttClientOptions = new MqttClientOptionsBuilder()
+            .WithTcpServer(_mqttSettings.Address, _mqttSettings.Port)
+            .WithCredentials(_mqttSettings.Username, _mqttSettings.Password).Build();
+
+        try
+        {
+            await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
+
+            _logger.LogInformation("Connected to MQTT broker");
+
+            var serialisedMqttMessage = JsonSerializer.Serialize(new Models.Config(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            
+            _logger.LogInformation("Sending Config MQTT message: {Message}", serialisedMqttMessage);
+            
+            var message = new MqttApplicationMessageBuilder()
+                .WithTopic(MqttSettings.ConfigTopic)
+                .WithPayload(serialisedMqttMessage)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
+                .Build();
+
+            var result = await mqttClient.PublishAsync(message, CancellationToken.None);
+
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("Successfully sent Config MQTT message");
+            }
+            else
+            {
+                _logger.LogError("Error when sending Config MQTT message");
             }
         
             var mqttClientDisconnectOptions = _mqttFactory.CreateClientDisconnectOptionsBuilder().Build();

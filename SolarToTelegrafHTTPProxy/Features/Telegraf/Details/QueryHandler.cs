@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using SolarToTelegrafHTTPProxy.Config;
 using SolarToTelegrafHTTPProxy.Services.Mqtt;
-using SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
@@ -30,7 +29,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 
             if (_generalSettings.EnableMqtt)
             {
-                await _mqttService.PublishMessageToBrokerAsync(new Message
+                await _mqttService.PublishMessageToBrokerAsync(new Services.Mqtt.Models.SolarInfo
                 {
                     ACOutputApparentPower = request.ACOutputApparentPower,
                     ACOutputFrequency = request.ACOutputFrequency,
