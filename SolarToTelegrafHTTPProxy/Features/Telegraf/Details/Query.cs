@@ -32,7 +32,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             InverterStatus = Convert.ToInt32(data.GetValue(21));
             PVInputCurrentForBattery = Convert.ToInt32(data.GetValue(22));
             BatteryDischargeCurrent = Convert.ToInt32(data.GetValue(23));
-            DeviceStatus = Convert.ToInt32(data.GetValue(24));
+            DeviceStatus = int.TryParse(data.GetValue(24) as string, out var deviceStatus) ? deviceStatus : 0;
             PVChargingPower = Convert.ToInt32(data.GetValue(25));
             PV2InputVoltage = Convert.ToDecimal(data.GetValue(26));
             PV2InputCurrent = Convert.ToInt32(data.GetValue(27));
