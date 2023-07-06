@@ -5,7 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SolarToTelegrafHTTPProxy.Config;
+using SolarToTelegrafHTTPProxy.CustomFormatters;
 using SolarToTelegrafHTTPProxy.Features.Telegraf;
+using SolarToTelegrafHTTPProxy.Services.Mqtt;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddCors();
+
+builder.Services.AddControllers(o => o.InputFormatters.Insert(o.InputFormatters.Count, new TextPlainInputFormatter()));
 
 builder.Services.AddHttpClient(TelegrafHttpService.HttpClientName, config =>
 {
@@ -37,6 +41,7 @@ builder.Services.AddOptions()
     .Configure<MqttSettings>(builder.Configuration.GetSection(nameof(MqttSettings)));
 
 builder.Services.AddSingleton<ITelegrafHttpService, TelegrafHttpService>();
+builder.Services.AddSingleton<IMqttService, MqttService>();
 
 var app = builder.Build();
 
