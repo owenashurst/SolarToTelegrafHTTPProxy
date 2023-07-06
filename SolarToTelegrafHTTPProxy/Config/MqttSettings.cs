@@ -2,7 +2,7 @@
 
 public class MqttSettings
 {
-    public const string ConfigTopic = "homeassistant/climate/iconica_solar/config";
+    public const string ConfigTopic = "homeassistant/sensor/iconica_solar/config";
 
     public const string MessageTopic = "iconicasolar/message";
     
