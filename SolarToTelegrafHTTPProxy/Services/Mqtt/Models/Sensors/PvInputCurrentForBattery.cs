@@ -8,7 +8,7 @@ public class PvInputCurrentForBattery : IConfig
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_pv_input_current_for_batteries/config";
     
     [JsonPropertyName("device_class")] 
-    public string DeviceClass { get; set; } = "number";
+    public string DeviceClass { get; set; } = "current";
 
     [JsonPropertyName("name")] 
     public string Name { get; set; } = "PV Input Current For Battery";
@@ -17,7 +17,7 @@ public class PvInputCurrentForBattery : IConfig
     public string StateTopic { get; set; } = Config.StateTopicName;
 
     [JsonPropertyName("unit_of_measurement")]
-    public string UnitOfMeasurement { get; set; } = "current";
+    public string UnitOfMeasurement { get; set; } = "A";
 
     [JsonPropertyName("value_template")] 
     public string ValueTemplate { get; set; } = "{{ value_json.pvInputCurrentForBattery }}";

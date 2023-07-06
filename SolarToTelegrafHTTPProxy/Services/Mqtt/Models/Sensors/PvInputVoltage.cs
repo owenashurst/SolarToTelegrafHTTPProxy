@@ -8,7 +8,7 @@ public class PvInputVoltage : IConfig
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_pvinput_voltage/config";
 
     [JsonPropertyName("device_class")] 
-    public string DeviceClass { get; set; } = "number";
+    public string DeviceClass { get; set; } = "voltage";
 
     [JsonPropertyName("name")] 
     public string Name { get; set; } = "PV Input Voltage";
@@ -17,7 +17,7 @@ public class PvInputVoltage : IConfig
     public string StateTopic { get; set; } = Config.StateTopicName;
 
     [JsonPropertyName("unit_of_measurement")]
-    public string UnitOfMeasurement { get; set; } = "voltage";
+    public string UnitOfMeasurement { get; set; } = "V";
 
     [JsonPropertyName("value_template")] 
     public string ValueTemplate { get; set; } = "{{ value_json.pvInputVoltage }}";
