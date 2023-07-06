@@ -38,13 +38,26 @@ public class MqttService : IMqttService
             await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
             _logger.LogInformation("Connected to MQTT broker.");
-        
+
+            var serialisedMqttMessage = JsonSerializer.Serialize(mqttMessage);
+            
+            _logger.LogInformation("Sending MQTT message: {Message}", serialisedMqttMessage);
+            
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(_mqttSettings.Topic)
-                .WithPayload(JsonSerializer.Serialize(mqttMessage))
+                .WithPayload(serialisedMqttMessage)
                 .Build();
 
-            await mqttClient.PublishAsync(message, CancellationToken.None);
+            var result = await mqttClient.PublishAsync(message, CancellationToken.None);
+
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("Successfully sent MQTT message");
+            }
+            else
+            {
+                _logger.LogError("Error when sending MQTT message");
+            }
         
             var mqttClientDisconnectOptions = _mqttFactory.CreateClientDisconnectOptionsBuilder().Build();
         
