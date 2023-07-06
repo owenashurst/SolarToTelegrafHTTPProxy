@@ -25,7 +25,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             BatteryChargingCurrent = Convert.ToInt32(data.GetValue(14));
             BatteryCapacity = Convert.ToInt32(data.GetValue(15));
             PVInputVoltage = Convert.ToDecimal(data.GetValue(16));
-            TotalChargingCurrent = Convert.ToDecimal(data.GetValue(17));
+            TotalChargingCurrent = int.TryParse(data.GetValue(17) as string, out var totalChargingCurrent) ? totalChargingCurrent : 0;
             TotalACOutputApparentPower = Convert.ToInt32(data.GetValue(18));
             TotalOutputActivePower = Convert.ToInt32(data.GetValue(19));
             TotalACOutputPercentage = Convert.ToInt32(data.GetValue(20));
