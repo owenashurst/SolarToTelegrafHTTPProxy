@@ -4,6 +4,7 @@ namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models.Sensors;
 
 public class PvInputVoltage : IConfig
 {
+    [JsonIgnore]
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_pvinput_voltage/config";
 
     [JsonPropertyName("device_class")] 
