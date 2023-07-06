@@ -28,7 +28,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             TotalChargingCurrent = int.TryParse(data.GetValue(17) as string, out var totalChargingCurrent) ? totalChargingCurrent : 0;
             TotalACOutputApparentPower = int.TryParse(data.GetValue(18) as string, out var totalAcOutputApparentPower) ? totalAcOutputApparentPower : 0;
             TotalOutputActivePower = int.TryParse(data.GetValue(19) as string, out var totalAcOutputActivePower) ? totalAcOutputActivePower : 0;
-            TotalACOutputPercentage = Convert.ToInt32(data.GetValue(20));
+            TotalACOutputPercentage = int.TryParse(data.GetValue(20) as string, out var totalAcOutputPercentage) ? totalAcOutputPercentage : 0;
             InverterStatus = Convert.ToInt32(data.GetValue(21));
             PVInputCurrentForBattery = Convert.ToInt32(data.GetValue(22));
             BatteryDischargeCurrent = Convert.ToInt32(data.GetValue(23));
