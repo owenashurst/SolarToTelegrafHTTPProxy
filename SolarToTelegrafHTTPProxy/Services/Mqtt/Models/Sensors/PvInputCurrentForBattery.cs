@@ -25,10 +25,6 @@ public class PvInputCurrentForBattery : IConfig
     [JsonPropertyName("unique_id")] 
     public string UniqueId { get; set; } = "pvinputcurrentforbatteries";
 
-    [JsonPropertyName("device")]
-    public Device Device { get; init; } = new()
-    {
-        Name = "IconicaSolar",
-        Identifiers = new[] { "pvInputCurrent" }
-    };
+    [JsonPropertyName("device")] 
+    public Device Device { get; init; } = new();
 }

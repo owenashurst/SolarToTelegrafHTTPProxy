@@ -25,10 +25,6 @@ public class PvInputVoltage : IConfig
     [JsonPropertyName("unique_id")] 
     public string UniqueId { get; set; } = "pvinputvoltage";
     
-    [JsonPropertyName("device")]
-    public Device Device { get; init; } = new()
-    {
-        Name = "IconicaSolar",
-        Identifiers = new[] { "pvInputVoltage" }
-    };
+    [JsonPropertyName("device")] 
+    public Device Device { get; init; } = new();
 }

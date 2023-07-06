@@ -25,10 +25,6 @@ public class PvTotalChargingPower : IConfig
     [JsonPropertyName("unique_id")] 
     public string UniqueId { get; set; } = "pvtotalchargingpower";
 
-    [JsonPropertyName("device")]
-    public Device Device { get; init; } = new()
-    {
-        Name = "IconicaSolar",
-        Identifiers = new[] { "pvTotalChargingPower" }
-    };
+    [JsonPropertyName("device")] 
+    public Device Device { get; init; } = new();
 }
