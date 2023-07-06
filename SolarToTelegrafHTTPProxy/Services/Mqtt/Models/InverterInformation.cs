@@ -1,6 +1,6 @@
 ﻿namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
-public class SolarInfo
+public class InverterInformation
 {
     public decimal PVInputVoltage { get; set; }
     

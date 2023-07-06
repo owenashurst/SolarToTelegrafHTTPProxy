@@ -5,26 +5,7 @@ namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
 public class Config
 {
-    [JsonPropertyName("unique_id")]
-    public string UniqueId { get; set; } = "iconica_solar";
-
-    [JsonPropertyName("name")] 
-    public string Name { get; set; } = "Iconica Solar Stats";
-
-    [JsonPropertyName("pv_input_voltage_t")]
-    public string PVInputVoltage { get; set; } = MqttSettings.MessageTopic;
-    [JsonPropertyName("pv_input_voltage_tpl")]
-    public string PVInputVoltageTemplate { get; set; } = "{{ value_json.pvInputVoltage }}";
-    
-    [JsonPropertyName("pv_input_current_batt_t")]
-    public string PVInputCurrentForBattery { get; set; } = MqttSettings.MessageTopic;
-    [JsonPropertyName("pv_input_current_batt_tpl")]
-    public string PVInputCurrentForBatteryTemplate { get; set; } = "{{ value_json.pvInputCurrentForBattery }}";
-    
-    [JsonPropertyName("pv_total_charging_power_t")]
-    public string PVTotalChargingPower { get; set; } = MqttSettings.MessageTopic;
-    [JsonPropertyName("pv_total_charging_power_tpl")]
-    public string PVTotalChargingPowerTemplate { get; set; } = "{{ value_json.pvTotalChargingPower }}";
+    public const string StateTopicName = "homeassistant/sensor/iconica_solar/state";
     
     [JsonPropertyName("battery_voltage_t")]
     public string BatteryVoltage { get; set; } = MqttSettings.MessageTopic;

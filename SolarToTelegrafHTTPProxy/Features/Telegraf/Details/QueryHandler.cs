@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using SolarToTelegrafHTTPProxy.Config;
 using SolarToTelegrafHTTPProxy.Services.Mqtt;
+using SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
@@ -29,7 +30,9 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 
             if (_generalSettings.EnableMqtt)
             {
-                await _mqttService.PublishMessageToBrokerAsync(new Services.Mqtt.Models.SolarInfo
+                await GenerateAllSensorConfigurationsAsync();
+                
+                await _mqttService.PublishMessageToBrokerAsync(new InverterInformation
                 {
                     ACOutputApparentPower = request.ACOutputApparentPower,
                     ACOutputFrequency = request.ACOutputFrequency,
@@ -47,6 +50,19 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 
             // We only really care whether Telegraf submitted successfully or not.
             return telegrafResult ? new Response { Success = true } : new Response { Success = false };
+        }
+
+        private async Task GenerateAllSensorConfigurationsAsync()
+        {
+            foreach (var type in System.Reflection.Assembly.GetExecutingAssembly().GetTypes())
+            {
+                if (typeof(IConfig).IsAssignableFrom(type) && !type.IsAbstract && !type.IsInterface)
+                {
+                    var instance = (IConfig)Activator.CreateInstance(type);
+
+                    await _mqttService.PublishConfigMessageToBrokerAsync(instance);
+                }
+            }
         }
     }
 }

@@ -5,5 +5,7 @@ namespace SolarToTelegrafHTTPProxy.Services.Mqtt;
 
 public interface IMqttService
 {
-    Task<bool> PublishMessageToBrokerAsync(SolarInfo solarInfo);
+    Task<bool> PublishMessageToBrokerAsync(InverterInformation inverterInformation);
+
+    Task<bool> PublishConfigMessageToBrokerAsync(IConfig config);
 }

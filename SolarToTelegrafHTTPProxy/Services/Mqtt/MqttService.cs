@@ -28,11 +28,8 @@ public class MqttService : IMqttService
         _mqttFactory = new MqttFactory();
     }
 
-    public async Task<bool> PublishMessageToBrokerAsync(SolarInfo solarInfo)
+    public async Task<bool> PublishMessageToBrokerAsync(InverterInformation inverterInformation)
     {
-        var configResult = await PublishConfigMessageToBrokerAsync();
-        if (!configResult) return false;
-        
         using var mqttClient = _mqttFactory.CreateMqttClient();
         
         var mqttClientOptions = new MqttClientOptionsBuilder()
@@ -45,12 +42,12 @@ public class MqttService : IMqttService
 
             _logger.LogInformation("Connected to MQTT broker");
 
-            var serialisedMqttMessage = JsonSerializer.Serialize(solarInfo, new JsonSerializerOptions(JsonSerializerDefaults.Web));
+            var serialisedMqttMessage = JsonSerializer.Serialize(inverterInformation, new JsonSerializerOptions(JsonSerializerDefaults.Web));
             
             _logger.LogInformation("Sending MQTT message: {Message}", serialisedMqttMessage);
             
             var message = new MqttApplicationMessageBuilder()
-                .WithTopic(MqttSettings.MessageTopic)
+                .WithTopic(Models.Config.StateTopicName)
                 .WithPayload(serialisedMqttMessage)
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
                 .WithRetainFlag(true)
@@ -81,7 +78,7 @@ public class MqttService : IMqttService
         }
     }
     
-    private async Task<bool> PublishConfigMessageToBrokerAsync()
+    public async Task<bool> PublishConfigMessageToBrokerAsync(IConfig config)
     {
         using var mqttClient = _mqttFactory.CreateMqttClient();
         
@@ -94,13 +91,13 @@ public class MqttService : IMqttService
             await mqttClient.ConnectAsync(mqttClientOptions, CancellationToken.None);
 
             _logger.LogInformation("Connected to MQTT broker");
-
-            var serialisedMqttMessage = JsonSerializer.Serialize(new Models.Config(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
             
+            var serialisedMqttMessage = JsonSerializer.Serialize(config, config.GetType(), new JsonSerializerOptions(JsonSerializerDefaults.Web));
+
             _logger.LogInformation("Sending Config MQTT message: {Message}", serialisedMqttMessage);
             
             var message = new MqttApplicationMessageBuilder()
-                .WithTopic(MqttSettings.ConfigTopic)
+                .WithTopic(config.ConfigTopicName)
                 .WithPayload(serialisedMqttMessage)
                 .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
                 .WithRetainFlag(true)
