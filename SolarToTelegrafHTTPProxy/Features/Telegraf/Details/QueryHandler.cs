@@ -41,7 +41,8 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
                     BatteryDischargeCurrent = request.BatteryDischargeCurrent,
                     BatteryVoltage = request.BatteryVoltage,
                     PVInputCurrentForBattery = request.PVInputCurrentForBattery,
-                    PVInputVoltage = request.PVInputVoltage
+                    PVInputVoltage = request.PVInputVoltage,
+                    PVTotalChargingPower = request.PVTotalChargingPower
                 });
             }
 

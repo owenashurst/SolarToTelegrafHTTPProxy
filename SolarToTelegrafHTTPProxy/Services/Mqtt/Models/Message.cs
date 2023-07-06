@@ -6,7 +6,7 @@ public class Message
     
     public decimal PVInputCurrentForBattery { get; set; }
     
-    public int PVTotalChargingPower { get; set; }
+    public decimal PVTotalChargingPower { get; set; }
 
     public decimal BatteryVoltage { get; set; }
 
@@ -23,6 +23,4 @@ public class Message
     public decimal ACOutputPower { get; set; }
 
     public decimal ACOutputApparentPower { get; set; }
-    
-    
 }
