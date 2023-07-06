@@ -31,7 +31,9 @@ public class MqttService : IMqttService
     {
         using var mqttClient = _mqttFactory.CreateMqttClient();
         
-        var mqttClientOptions = new MqttClientOptionsBuilder().WithTcpServer(_mqttSettings.Address, _mqttSettings.Port).Build();
+        var mqttClientOptions = new MqttClientOptionsBuilder()
+            .WithTcpServer(_mqttSettings.Address, _mqttSettings.Port)
+            .WithCredentials(_mqttSettings.Username, _mqttSettings.Password).Build();
 
         try
         {

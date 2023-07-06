@@ -6,6 +6,10 @@ public class MqttSettings
 
     public int Port { get; set; } = 1883;
 
+    public string Username { get; set; } = string.Empty;
+
+    public string Password { get; set; } = string.Empty;
+
     public string ClientId { get; set; } = "iconica-solar";
 
     public string Topic { get; set; } = "iconica-solar";
