@@ -18,8 +18,8 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             GridFrequency = Convert.ToDecimal(data.GetValue(7));
             ACOutputVoltage = Convert.ToDecimal(data.GetValue(8));
             ACOutputFrequency = Convert.ToDecimal(data.GetValue(9));
-            ACOutputApparentPower = Convert.ToDecimal(data.GetValue(10));
-            ACOutputActivePower = Convert.ToDecimal(data.GetValue(11));
+            ACOutputApparentPower = decimal.TryParse(data.GetValue(10) as string, out var acOutputApparentPower) ? acOutputApparentPower : 0;
+            ACOutputActivePower = decimal.TryParse(data.GetValue(11) as string, out var acOutputActivePower) ? acOutputActivePower : 0;
             LoadPercentage = Convert.ToInt32(data.GetValue(12));
             BatteryVoltage = Convert.ToDecimal(data.GetValue(13));
             BatteryChargingCurrent = Convert.ToInt32(data.GetValue(14));
