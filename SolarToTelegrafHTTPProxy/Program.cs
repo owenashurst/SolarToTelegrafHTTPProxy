@@ -22,7 +22,7 @@ builder.Services.AddControllers(o => o.InputFormatters.Insert(o.InputFormatters.
 
 builder.Services.AddHttpClient(TelegrafHttpService.HttpClientName, config =>
 {
-    var telegrafSettings = builder.Configuration.GetSection("Settings").Get<TelegrafSettings>();
+    var telegrafSettings = builder.Configuration.GetSection(nameof(TelegrafSettings)).Get<TelegrafSettings>();
     config.BaseAddress = new Uri(telegrafSettings.HttpListenerApiUrl);
 });
 
