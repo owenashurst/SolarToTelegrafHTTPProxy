@@ -52,7 +52,8 @@ public class MqttService : IMqttService
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(MqttSettings.MessageTopic)
                 .WithPayload(serialisedMqttMessage)
-                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+                .WithRetainFlag(true)
                 .Build();
 
             var result = await mqttClient.PublishAsync(message, CancellationToken.None);
@@ -101,7 +102,8 @@ public class MqttService : IMqttService
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(MqttSettings.ConfigTopic)
                 .WithPayload(serialisedMqttMessage)
-                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.AtMostOnce)
+                .WithRetainFlag(true)
                 .Build();
 
             var result = await mqttClient.PublishAsync(message, CancellationToken.None);
