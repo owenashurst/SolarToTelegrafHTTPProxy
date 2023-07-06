@@ -1,26 +1,12 @@
-﻿namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
+﻿using System.Text.Json.Serialization;
 
-public class Message
+namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
+
+public class Message : SolarInfo
 {
-    public decimal PVInputVoltage { get; set; }
-    
-    public decimal PVInputCurrentForBattery { get; set; }
-    
-    public decimal PVTotalChargingPower { get; set; }
+    [JsonPropertyName("unique_id")]
+    public string UniqueId { get; set; } = "iconica_solar";
 
-    public decimal BatteryVoltage { get; set; }
-
-    public decimal BatteryChargingCurrent { get; set; }
-
-    public decimal BatteryDischargeCurrent { get; set; }
-
-    public int BatteryCapacity { get; set; }
-
-    public decimal ACOutputVoltage { get; set; }
-
-    public decimal ACOutputFrequency { get; set; }
-
-    public decimal ACOutputPower { get; set; }
-
-    public decimal ACOutputApparentPower { get; set; }
+    [JsonPropertyName("name")] 
+    public string Name { get; set; } = "Iconica Solar Stats";
 }

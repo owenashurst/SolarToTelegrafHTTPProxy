@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MQTTnet;
 using MQTTnet.Client;
+using MQTTnet.Protocol;
 using SolarToTelegrafHTTPProxy.Config;
 using SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 
@@ -48,6 +49,7 @@ public class MqttService : IMqttService
             var message = new MqttApplicationMessageBuilder()
                 .WithTopic(_mqttSettings.Topic)
                 .WithPayload(serialisedMqttMessage)
+                .WithQualityOfServiceLevel(MqttQualityOfServiceLevel.ExactlyOnce)
                 .Build();
 
             var result = await mqttClient.PublishAsync(message, CancellationToken.None);

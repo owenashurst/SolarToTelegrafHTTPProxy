@@ -10,7 +10,7 @@ public class MqttSettings
 
     public string Password { get; set; } = string.Empty;
 
-    public string ClientId { get; set; } = "iconica-solar";
+    public string ClientId { get; set; } = "iconica_solar";
 
-    public string Topic { get; set; } = "iconica-solar";
+    public string Topic { get; set; } = "homeassistant/sensor/iconica_solar/config";
 }
