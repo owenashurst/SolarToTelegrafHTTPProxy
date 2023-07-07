@@ -15,6 +15,9 @@ public class BatteryChargingCurrent : IConfig
 
     [JsonPropertyName("state_topic")] 
     public string StateTopic { get; set; } = Config.StateTopicName;
+   
+    [JsonPropertyName("state_class")] 
+    public string StateClass { get; set; } = "measurement";
 
     [JsonPropertyName("unit_of_measurement")]
     public string UnitOfMeasurement { get; set; } = "A";
