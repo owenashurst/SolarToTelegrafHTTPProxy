@@ -8,7 +8,7 @@ public class BatteryCapacity : IConfig
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_battery_capacity/config";
 
     [JsonPropertyName("device_class")] 
-    public string DeviceClass { get; set; } = "none";
+    public string DeviceClass { get; set; } = "battery";
 
     [JsonPropertyName("name")] 
     public string Name { get; set; } = "Battery Capacity";
@@ -17,7 +17,7 @@ public class BatteryCapacity : IConfig
     public string StateTopic { get; set; } = Config.StateTopicName;
 
     [JsonPropertyName("unit_of_measurement")]
-    public string UnitOfMeasurement { get; set; } = "";
+    public string UnitOfMeasurement { get; set; } = "%";
 
     [JsonPropertyName("value_template")] 
     public string ValueTemplate { get; set; } = "{{ value_json.batteryCapacity }}";
