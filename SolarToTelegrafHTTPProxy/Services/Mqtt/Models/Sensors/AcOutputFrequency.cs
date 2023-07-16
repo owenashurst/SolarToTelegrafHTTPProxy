@@ -17,7 +17,7 @@ public class AcOutputFrequency : IConfig
     public string StateTopic { get; set; } = Config.StateTopicName;
 
     [JsonPropertyName("unit_of_measurement")]
-    public string UnitOfMeasurement { get; set; } = "V";
+    public string UnitOfMeasurement { get; set; } = "Hz";
 
     [JsonPropertyName("value_template")] 
     public string ValueTemplate { get; set; } = "{{ value_json.acOutputFrequency }}";
