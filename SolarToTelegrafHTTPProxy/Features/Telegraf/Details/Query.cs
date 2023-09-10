@@ -22,24 +22,24 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             ACOutputActivePower = decimal.TryParse(data.GetValue(11) as string, out var acOutputActivePower) ? acOutputActivePower : 0;
             LoadPercentage = Convert.ToInt32(data.GetValue(12));
             BatteryVoltage = Convert.ToDecimal(data.GetValue(13));
-            BatteryChargingCurrent = Convert.ToInt32(data.GetValue(14));
+            BatteryChargingCurrent = Convert.ToDecimal(data.GetValue(14));
             BatteryCapacity = Convert.ToInt32(data.GetValue(15));
             PVInputVoltage = Convert.ToDecimal(data.GetValue(16));
-            TotalChargingCurrent = int.TryParse(data.GetValue(17) as string, out var totalChargingCurrent) ? totalChargingCurrent : 0;
-            TotalACOutputApparentPower = int.TryParse(data.GetValue(18) as string, out var totalAcOutputApparentPower) ? totalAcOutputApparentPower : 0;
-            TotalOutputActivePower = int.TryParse(data.GetValue(19) as string, out var totalAcOutputActivePower) ? totalAcOutputActivePower : 0;
+            TotalChargingCurrent = decimal.TryParse(data.GetValue(17) as string, out var totalChargingCurrent) ? totalChargingCurrent : 0.00m;
+            TotalACOutputApparentPower = decimal.TryParse(data.GetValue(18) as string, out var totalAcOutputApparentPower) ? totalAcOutputApparentPower : 0.00m;
+            TotalOutputActivePower = decimal.TryParse(data.GetValue(19) as string, out var totalAcOutputActivePower) ? totalAcOutputActivePower : 0.00m;
             TotalACOutputPercentage = int.TryParse(data.GetValue(20) as string, out var totalAcOutputPercentage) ? totalAcOutputPercentage : 0;
             InverterStatus = int.TryParse(data.GetValue(21) as string, out var inverterStatus) ? inverterStatus : 0;
-            PVInputCurrentForBattery = Convert.ToInt32(data.GetValue(22));
-            BatteryDischargeCurrent = Convert.ToInt32(data.GetValue(23));
+            PVInputCurrentForBattery = Convert.ToDecimal(data.GetValue(22));
+            BatteryDischargeCurrent = Convert.ToDecimal(data.GetValue(23));
             DeviceStatus = int.TryParse(data.GetValue(24) as string, out var deviceStatus) ? deviceStatus : 0;
-            PVChargingPower = Convert.ToInt32(data.GetValue(25));
+            PVChargingPower = Convert.ToDecimal(data.GetValue(25));
             PV2InputVoltage = Convert.ToDecimal(data.GetValue(26));
-            PV2InputCurrent = Convert.ToInt32(data.GetValue(27));
-            PV2ChargingPower = Convert.ToInt32(data.GetValue(28));
+            PV2InputCurrent = Convert.ToDecimal(data.GetValue(27));
+            PV2ChargingPower = Convert.ToDecimal(data.GetValue(28));
             PV3InputVoltage = Convert.ToDecimal(data.GetValue(29));
-            PV3InputCurrent = Convert.ToInt32(data.GetValue(30));
-            PV3ChargingPower = Convert.ToInt32(data.GetValue(31));
+            PV3InputCurrent = Convert.ToDecimal(data.GetValue(30));
+            PV3ChargingPower = Convert.ToDecimal(data.GetValue(31));
             
             // Sometimes this can have a value of "-" so we need to handle this and just set it as 0.
             // Currently this property isn't being used, but might be in future.
@@ -48,7 +48,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             DeviceStatus2 = int.TryParse(data.GetValue(33) as string, out var deviceStatus2) ? deviceStatus2 : 0;
             ACChargingCurrent = int.TryParse(data.GetValue(34) as string, out var acChargingCurrent) ? acChargingCurrent : 0;
             ACChargingPower = int.TryParse(data.GetValue(35) as string, out var acChargingPower) ? acChargingPower : 0;
-            PVTotalChargingPower = int.TryParse(data.GetValue(36) as string, out var pvTotalChargingPower) ? pvTotalChargingPower : 0;
+            PVTotalChargingPower = decimal.TryParse(data.GetValue(36) as string, out var pvTotalChargingPower) ? pvTotalChargingPower : 0.00m;
 
             CurrentTime = DateTime.ParseExact(data.GetValue(40) as string, "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
         }
@@ -91,7 +91,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 
         public decimal TotalACOutputApparentPower { get; set; }
 
-        public int TotalOutputActivePower { get; set; }
+        public decimal TotalOutputActivePower { get; set; }
 
         public int TotalACOutputPercentage { get; set; }
 
