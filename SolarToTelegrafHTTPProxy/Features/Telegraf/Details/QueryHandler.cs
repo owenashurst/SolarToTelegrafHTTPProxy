@@ -20,7 +20,8 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
         private readonly IOctopusService _octopusService;
         private readonly IMapper _mapper;
 
-        public QueryHandler(IOctopusService octopusService, ITelegrafHttpService telegrafHttpService, IMqttService mqttService, IOptions<GeneralSettings> generalSettings, IMapper mapper)
+        public QueryHandler(IOctopusService octopusService, ITelegrafHttpService telegrafHttpService,
+            IMqttService mqttService, IOptions<GeneralSettings> generalSettings, IMapper mapper)
         {
             ArgumentNullException.ThrowIfNull(generalSettings);
             _generalSettings = generalSettings.Value;
