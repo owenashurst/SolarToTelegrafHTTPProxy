@@ -27,6 +27,12 @@ builder.Services.AddHttpClient(TelegrafHttpService.HttpClientName, config =>
     config.BaseAddress = new Uri(telegrafSettings.HttpListenerApiUrl);
 });
 
+builder.Services.AddHttpClient(OctopusClient.HttpClientName, config =>
+{
+    var octopusSettings = builder.Configuration.GetSection(nameof(OctopusSettings)).Get<OctopusSettings>();
+    config.BaseAddress = new Uri(octopusSettings.BaseApiUrl);
+});
+
 builder.Services.AddMediatR(o =>
 {
     o.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
