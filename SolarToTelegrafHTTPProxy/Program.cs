@@ -8,6 +8,7 @@ using SolarToTelegrafHTTPProxy.Config;
 using SolarToTelegrafHTTPProxy.CustomFormatters;
 using SolarToTelegrafHTTPProxy.Features.Telegraf;
 using SolarToTelegrafHTTPProxy.Services.Mqtt;
+using SolarToTelegrafHTTPProxy.Services.Octopus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ builder.Services.AddMediatR(o =>
     o.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 });
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddOptions()
     .Configure<GeneralSettings>(builder.Configuration.GetSection(nameof(GeneralSettings)));
 
@@ -40,8 +43,13 @@ builder.Services.AddOptions()
 builder.Services.AddOptions()
     .Configure<MqttSettings>(builder.Configuration.GetSection(nameof(MqttSettings)));
 
+builder.Services.AddOptions()
+    .Configure<OctopusSettings>(builder.Configuration.GetSection(nameof(OctopusSettings)));
+
 builder.Services.AddSingleton<ITelegrafHttpService, TelegrafHttpService>();
 builder.Services.AddSingleton<IMqttService, MqttService>();
+builder.Services.AddSingleton<IOctopusClient, OctopusClient>();
+builder.Services.AddSingleton<IOctopusService, OctopusService>();
 
 var app = builder.Build();
 
