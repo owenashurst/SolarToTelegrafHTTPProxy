@@ -8,7 +8,7 @@ public class PvTotalChargingPower : IConfig
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_pv_total_charging_power/config";
 
     [JsonPropertyName("device_class")] 
-    public string DeviceClass { get; set; } = "power";
+    public string DeviceClass { get; set; } = "energy";
 
     [JsonPropertyName("name")] 
     public string Name { get; set; } = "PV Total Charging Power";
@@ -17,7 +17,7 @@ public class PvTotalChargingPower : IConfig
     public string StateTopic { get; set; } = Config.StateTopicName;
 
     [JsonPropertyName("state_class")]
-    public string StateClass { get; set; } = "measurement";
+    public string StateClass { get; set; } = "total";
 
     [JsonPropertyName("unit_of_measurement")]
     public string UnitOfMeasurement { get; set; } = "W";
