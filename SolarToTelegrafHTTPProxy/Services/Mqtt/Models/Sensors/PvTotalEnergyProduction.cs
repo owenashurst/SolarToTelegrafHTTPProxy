@@ -20,7 +20,7 @@ public class PvTotalEnergyProduction : IConfig
     public string StateClass { get; set; } = "total";
 
     [JsonPropertyName("unit_of_measurement")]
-    public string UnitOfMeasurement { get; set; } = "kWh";
+    public string UnitOfMeasurement { get; set; } = "Wh";
 
     [JsonPropertyName("value_template")] 
     public string ValueTemplate { get; set; } = "{{ value_json.pvTotalEnergyProduction }}";
