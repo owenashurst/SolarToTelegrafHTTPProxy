@@ -2,7 +2,7 @@
 
 namespace SolarToTelegrafHTTPProxy.Services.Mqtt.Models.Sensors;
 
-public class PvTotalEnergyProduction
+public class PvTotalEnergyProduction : IConfig
 {
     [JsonIgnore]
     public string ConfigTopicName { get; set; } = "homeassistant/sensor/iconica_solar_pv_total_energy_production/config";
