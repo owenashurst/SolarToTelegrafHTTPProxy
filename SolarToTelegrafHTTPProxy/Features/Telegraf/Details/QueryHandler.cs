@@ -60,7 +60,8 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
                 BatteryVoltage = request.BatteryVoltage,
                 PVInputCurrentForBattery = request.PVInputCurrentForBattery,
                 PVInputVoltage = request.PVInputVoltage,
-                PVTotalChargingPower = request.PVTotalChargingPower
+                PVTotalChargingPower = request.PVTotalChargingPower,
+                PVTotalEnergyProduction = request.PVTotalChargingPower
             });
 
             // We only really care whether Telegraf submitted successfully or not.

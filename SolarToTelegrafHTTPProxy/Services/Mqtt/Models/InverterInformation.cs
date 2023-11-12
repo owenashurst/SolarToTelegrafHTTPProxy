@@ -7,6 +7,8 @@ public class InverterInformation
     public decimal PVInputCurrentForBattery { get; set; }
     
     public decimal PVTotalChargingPower { get; set; }
+    
+    public decimal PVTotalEnergyProduction { get; set; }
 
     public decimal BatteryVoltage { get; set; }
 
