@@ -9,6 +9,7 @@ using SolarToTelegrafHTTPProxy.Features.Telegraf.Models;
 using SolarToTelegrafHTTPProxy.Services.Mqtt;
 using SolarToTelegrafHTTPProxy.Services.Mqtt.Models;
 using SolarToTelegrafHTTPProxy.Services.Octopus;
+using SolarToTelegrafHTTPProxy.Services.WattHour;
 
 namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
 {
@@ -19,9 +20,10 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
         private readonly IMqttService _mqttService;
         private readonly IOctopusService _octopusService;
         private readonly IMapper _mapper;
+        private readonly IWattHourStorage _wattHourStorage;
 
         public QueryHandler(IOctopusService octopusService, ITelegrafHttpService telegrafHttpService,
-            IMqttService mqttService, IOptions<GeneralSettings> generalSettings, IMapper mapper)
+            IMqttService mqttService, IOptions<GeneralSettings> generalSettings, IMapper mapper, IWattHourStorage wattHourStorage)
         {
             ArgumentNullException.ThrowIfNull(generalSettings);
             _generalSettings = generalSettings.Value;
@@ -30,17 +32,26 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
             _mqttService = mqttService;
             _mapper = mapper;
             _octopusService = octopusService;
+            _wattHourStorage = wattHourStorage;
         }
 
         public async Task<Response> Handle(Query query, CancellationToken cancellationToken)
         {
             var request = _mapper.Map<TelegrafData>(query);
-            
+
+            // Handle scenario where the charging power comes through as 0 but the current is greater than zero.
+            if (query.PVTotalChargingPower == 0 && query.PVInputCurrentForBattery > 0)
+            {
+                return new Response { Success = true };
+            }
+
             if (_generalSettings.EnableOctopusAgileRateRetrieval)
             {
                 request.CurrentAgileRate = await _octopusService.GetCurrentAgileRateAsync();
             }
-            
+
+            _wattHourStorage.TrackCurrentPowerForDateTime(request.PVTotalChargingPower);
+
             var telegrafResult = await _telegrafHttpService.SubmitToTelegraf(request);
 
             if (!_generalSettings.EnableMqtt)
@@ -61,7 +72,7 @@ namespace SolarToTelegrafHTTPProxy.Features.Telegraf.Details
                 PVInputCurrentForBattery = request.PVInputCurrentForBattery,
                 PVInputVoltage = request.PVInputVoltage,
                 PVTotalChargingPower = request.PVTotalChargingPower,
-                PVTotalEnergyProduction = request.PVTotalChargingPower
+                PVTotalEnergyProduction = _wattHourStorage.RetrieveCurrentWattHoursForToday()
             });
 
             // We only really care whether Telegraf submitted successfully or not.

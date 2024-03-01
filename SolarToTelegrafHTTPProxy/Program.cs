@@ -9,6 +9,7 @@ using SolarToTelegrafHTTPProxy.CustomFormatters;
 using SolarToTelegrafHTTPProxy.Features.Telegraf;
 using SolarToTelegrafHTTPProxy.Services.Mqtt;
 using SolarToTelegrafHTTPProxy.Services.Octopus;
+using SolarToTelegrafHTTPProxy.Services.WattHour;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,6 +57,8 @@ builder.Services.AddSingleton<ITelegrafHttpService, TelegrafHttpService>();
 builder.Services.AddSingleton<IMqttService, MqttService>();
 builder.Services.AddSingleton<IOctopusClient, OctopusClient>();
 builder.Services.AddSingleton<IOctopusService, OctopusService>();
+
+builder.Services.AddSingleton<IWattHourStorage, WattHourStorage>();
 
 var app = builder.Build();
 
